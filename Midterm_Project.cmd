@@ -107,15 +107,30 @@ goto invalid_afterPick
 echo Invalid choice. Please choose a valid option.
 goto afterOp
 
-
 ::file sorter
 :case2
 cls
-echo *********************************************
+echo *******************************************
 echo *               File Sorter                 *
-echo *********************************************
+echo *******************************************
 echo.
 
+:: confirmation before proceeding
+set /p choice=This will sort your files to a Folder, do you want to proceed (type yes or no)? 
+
+if /I "%choice%"=="yes" (
+    goto proceed
+) else if /I "%choice%"=="no" (
+    echo Going back to the Menu...
+    timeout /t 2 >nul
+    goto Menu
+) else (
+    echo Invalid choice. Please type "yes" or "no".
+    pause
+    goto case2
+)
+
+:proceed
 ::set directory
 set "source_dir=."
 set "target_dir=Sorted"
@@ -140,7 +155,7 @@ for %%a in ("%source_dir%\*.*") do (
 
         ::sorts or moves files to their respecting
         move "%%a" "%target_dir%\!ext!\" >nul
-        echo Moved: %%a to %target_dir%\!ext!\
+        echo Moved: %%a to %target_dir%\!ext!\ 
     )
 )
 
@@ -159,9 +174,10 @@ echo.
 
 :directories
 :: Get source directory
-set /p sourceDir=Enter your source directory: 
 echo (Directory where the files are collected)
 echo Example: C:\User\Desktop\...
+set /p sourceDir=Enter your source directory: 
+
 
 :: Check directory existence
 if not exist "%sourceDir%" (
