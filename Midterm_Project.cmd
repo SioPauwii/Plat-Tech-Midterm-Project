@@ -1,4 +1,5 @@
 @echo off
+:Menu 
 echo.
 echo.
 echo *********************************************
@@ -9,7 +10,6 @@ echo *                                           *
 echo *                                           *
 echo *********************************************
 echo.
-:Menu 
 echo.
 echo 1. Calculator
 echo 2. File Sorter
