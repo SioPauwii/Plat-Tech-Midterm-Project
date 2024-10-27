@@ -119,7 +119,7 @@ echo.
 set /p choice=This will sort your files to a Folder, do you want to proceed (type yes or no)? 
 
 if /I "%choice%"=="yes" (
-    goto proceed
+    goto set_directory
 ) else if /I "%choice%"=="no" (
     echo Going back to the Menu...
     timeout /t 2 >nul
@@ -130,10 +130,17 @@ if /I "%choice%"=="yes" (
     goto case2
 )
 
-:proceed
-::set directory
-set "source_dir=."
-set "target_dir=Sorted"
+:set_directory
+:: Ask the user to input the source directory
+set /p source_dir=Please enter the source directory path (e.g., C:\Users\new_user\Desktop): 
+
+if not exist "%source_dir%" (
+    echo Source directory does not exist. Please check the path and try again.
+    pause
+    goto set_directory
+)
+
+set "target_dir=%source_dir%\Sorted"
 
 if not exist "%target_dir%" (
     mkdir "%target_dir%"
@@ -155,7 +162,7 @@ for %%a in ("%source_dir%\*.*") do (
 
         ::sorts or moves files to their respecting
         move "%%a" "%target_dir%\!ext!\" >nul
-        echo Moved: %%a to %target_dir%\!ext!\ 
+        echo Moved: %%a to %target_dir%\!ext!\
     )
 )
 
@@ -163,6 +170,7 @@ echo.
 echo Sorting complete.
 pause
 goto Menu
+
 
 ::file mover
 :case3
