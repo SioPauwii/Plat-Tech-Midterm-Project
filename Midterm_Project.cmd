@@ -1,4 +1,5 @@
 @echo off
+cls
 :Menu 
 echo.
 echo.
@@ -330,10 +331,9 @@ pause
 goto Menu
 
 :notBlankFile
-echo Type the content of the file (press enter when finished):
-set /p fileContent=
+echo Enter text for the file (Press CTRL+Z then Enter to save and exit):
+copy con "%saveDir%\%fullFileName%.txt"
 
-echo %fileContent% > "%saveDir%\%fullFileName%"
 echo Text file created with content at "%saveDir%\%fullFileName%"
 pause
 goto Menu
@@ -350,11 +350,14 @@ echo *********************************************
 echo.
 echo 1. Shutdown
 echo 2. Restart
+echo 3. Return to menu
 set /p action=Choose your action:
 
 
 if "%action%"=="1" goto shutdownFunc
 if "%action%"=="2" goto restartFunc
+if  "%action%"=="3" goto Menu
+
 goto case6_default
 
 :shutdownFunc
